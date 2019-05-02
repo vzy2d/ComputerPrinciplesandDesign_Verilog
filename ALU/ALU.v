@@ -21,36 +21,17 @@ module ALU(a,b,aluc,r,z);
     wire [31:0] d_as,d_sh; //sra
 
     addsub32 as32 (a,b,aluc[2],d_as);
-    shift shofter ();
-    mux4x32 select ();
+    shift shofter (b,a[4:0],aluc[2],aluc[3],d_sh);
+    mux4x32 select (d_as,d_and_or,d_xor_lui,d_sh,aluc[1:0],r);
 
     assign z = ~|r;
 endmodule
 
-module addsub32(
-    input [31:0] a,
-    input [31:0] b,
-    input sub,
-    output [31:0] s    
-);
-    cla32 as32();
+module addsub32(a,b,sub,s);
+    input [31:0] a,b;
+    input sub;
+    output [31:0] s;  
 
-endmodule // 
+    cla32 as32(a, b^{32{sub}}, sub, s,);
+endmodule // addsub32
 
-module shift(
-    
-);
-
-endmodule // shift
-
-module mux4x32(
-    
-);
-
-endmodule // mux4x32
-
-module cla32(
-    
-);
-
-endmodule // cla32
